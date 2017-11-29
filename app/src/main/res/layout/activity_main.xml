@@ -6,29 +6,33 @@
     android:layout_height="match_parent"
     tools:context="com.transit.nyc.example.testtransitapplication.MainActivity">
 
-    <!--<ScrollView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:orientation="vertical">-->
+    <TextView
+        android:id="@+id/tv_image_size"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="image size"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <!--<TextView-->
-            <!--android:id="@+id/tv_entity"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="Hello World!"-->
-            <!--app:layout_constraintBottom_toBottomOf="parent"-->
-            <!--app:layout_constraintLeft_toLeftOf="parent"-->
-            <!--app:layout_constraintRight_toRightOf="parent"-->
-            <!--app:layout_constraintTop_toTopOf="parent" />-->
-    <!--</ScrollView>-->
+    <TextView
+        android:id="@+id/tv_matrix"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="matrix"
+        android:textColor="@color/colorPrimary"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_image_size" />
 
-    <!--<ZoomControls-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent">-->
-        <ImageView
-            android:id="@+id/iv_subway"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:srcCompat="@drawable/nyc_subway_latest_map" />
-    <!--</ZoomControls>-->
+    <com.github.chrisbanes.photoview.PhotoView
+        android:id="@+id/iv_subway"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    <!--android:src="@drawable/nyc_subway_latest_map"-->
+
+
 </android.support.constraint.ConstraintLayout>
