@@ -4,10 +4,12 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Canvas
 import android.graphics.drawable.BitmapDrawable
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.Snackbar
+import android.support.v4.content.ContextCompat
 import android.view.WindowManager
 import android.widget.Toast
 import com.github.chrisbanes.photoview.OnMatrixChangedListener
@@ -26,6 +28,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         iv_subway.setImageBitmap(resizeImage())
+//        iv_subway.setImageBitmap(getBitmap())
         iv_subway.setOnMatrixChangeListener(mMatrixChangeListener)
         iv_subway.setOnPhotoTapListener(mPhotoTapListener)
         iv_subway.setOnSingleFlingListener(mSingleFlingListener)
@@ -41,6 +44,8 @@ class MainActivity : AppCompatActivity() {
         options.inPreferredConfig = Bitmap.Config.RGB_565
         options.inJustDecodeBounds = true
         BitmapFactory.decodeResource(resources, R.drawable.nyc_subway_latest_map, options)
+//        BitmapFactory.decodeResource(resources, R.drawable.nyc_subway_latest_map_250_270, options)
+
 
         val widthScale = options.outWidth.div(displayWidth)
         val heightScale = options.outHeight.div(displayHeight)
@@ -65,18 +70,16 @@ class MainActivity : AppCompatActivity() {
 
         options.inJustDecodeBounds = false
         return BitmapFactory.decodeResource(resources, R.drawable.nyc_subway_latest_map, options)
-
-//        val image = resources.getDrawable(R.drawable.nyc_subway_latest_map)
-//        val bitmap = (image as BitmapDrawable).bitmap
-//
-//        val sizeX = Math.round(image.intrinsicWidth.times(scale).toDouble())
-//        val sizeY = Math.round(image.intrinsicHeight.times(scale).toDouble())
-//
-//        val resized = Bitmap.createScaledBitmap(bitmap, sizeX.toInt(), sizeY.toInt(), false)
-//
-//        return resized
-
     }
+
+//    fun getBitmap() : Bitmap {
+//        val vector = ContextCompat.getDrawable(applicationContext, R.drawable.nyc_subway_latest_map)
+//        val bitmap = Bitmap.createBitmap(vector.intrinsicWidth, vector.intrinsicHeight, Bitmap.Config.ARGB_8888)
+//        val canvas = Canvas(bitmap)
+//        vector.setBounds(0, 0, canvas.width, canvas.height)
+//        vector.draw(canvas)
+//        return bitmap
+//    }
 
     private val mPhotoTapListener = OnPhotoTapListener { view, x, y ->
         val xPercentage = x.times(100F)
