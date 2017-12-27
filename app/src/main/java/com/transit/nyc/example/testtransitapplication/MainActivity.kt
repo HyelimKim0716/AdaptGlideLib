@@ -32,6 +32,8 @@ class MainActivity : AppCompatActivity() {
         val imageManager = ImageLoadManager(this, resources)
 //        imageManager.images = ImageSplitManager(this).splitImage()
         iv_subway.setImageBitmap(imageManager.getCombinedImage())
+
+
         iv_subway.setOnMatrixChangeListener(mMatrixChangeListener)
         iv_subway.setOnPhotoTapListener(mPhotoTapListener)
         iv_subway.setOnSingleFlingListener(mSingleFlingListener)

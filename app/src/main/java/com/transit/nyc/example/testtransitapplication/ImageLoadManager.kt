@@ -4,6 +4,8 @@ import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.*
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.util.DisplayMetrics
 import android.view.WindowManager
 
@@ -96,6 +98,8 @@ class ImageLoadManager(val activity: Activity, val resources: Resources) {
             XXHDPI, XXXHDPI -> {
                 (0..activity.assets.list("prev_new_york_map/tiles_xxres").size.minus(1)).mapTo(imageRes) {
                     println("it : $it")
+//                    BitmapFactory.decodeStream(activity.assets.open("$XX_RES_PATH${String.format("nyc_500_%03d.png", it)}")) }
+
                     BitmapFactory.decodeStream(activity.assets.open("$XX_RES_PATH${String.format("nyc_500_%03d.png", it)}")) }
             }
         }
