@@ -4,17 +4,14 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.Canvas
-import android.graphics.Rect
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.Snackbar
+import android.support.v7.app.AppCompatActivity
 import android.view.WindowManager
 import android.widget.Toast
 import com.github.chrisbanes.photoview.OnMatrixChangedListener
 import com.github.chrisbanes.photoview.OnPhotoTapListener
 import com.github.chrisbanes.photoview.OnSingleFlingListener
-
 import kotlinx.android.synthetic.main.activity_main.*
 
 @SuppressLint("CheckResult")
@@ -27,12 +24,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
 //        iv_subway.setImageBitmap(resizeImage())
-//        iv_subway.setImageBitmap(getBitmap())
+//        iv_subway.setImageBitmap(getScreenSizeBitmap())
 
         val imageManager = ImageLoadManager(this, resources)
 //        imageManager.images = ImageSplitManager(this).splitImage()
         iv_subway.setImageBitmap(imageManager.getCombinedImage())
-
+        iv_subway.maximumScale = 20F
 
         iv_subway.setOnMatrixChangeListener(mMatrixChangeListener)
         iv_subway.setOnPhotoTapListener(mPhotoTapListener)
@@ -77,7 +74,7 @@ class MainActivity : AppCompatActivity() {
         return BitmapFactory.decodeResource(resources, R.drawable.nyc_subway_latest_map, options)
     }
 
-//    fun getBitmap() : Bitmap {
+//    fun getScreenSizeBitmap() : Bitmap {
 //        val vector = ContextCompat.getDrawable(applicationContext, R.drawable.nyc_subway_latest_map)
 //        val bitmap = Bitmap.createBitmap(vector.intrinsicWidth, vector.intrinsicHeight, Bitmap.Config.ARGB_8888)
 //        val canvas = Canvas(bitmap)

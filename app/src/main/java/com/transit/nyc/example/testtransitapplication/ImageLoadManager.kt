@@ -4,8 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.*
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
 import android.util.DisplayMetrics
 import android.view.WindowManager
 
@@ -34,12 +32,9 @@ class ImageLoadManager(val activity: Activity, val resources: Resources) {
 
 
     fun getCombinedImage(): Bitmap? {
-        val bitmap1: Bitmap = BitmapFactory.decodeResource(resources, R.drawable.nyc_500_000)
-        val bitmap2: Bitmap = BitmapFactory.decodeStream(activity.assets.open("$XX_RES_PATH${String.format("nyc_500_%03d.png", 1)}"))
-
         var bitmap: Bitmap? = null
 
-        bitmap = getBitmap()
+        bitmap = getImageSizeBitmap()
         val canvas: Canvas = Canvas(bitmap)
         println("bitmap size = ${bitmap.width} ${bitmap.height} / image size = ${images.size}")
 //            images.forEachIndexed { index, one ->
@@ -53,17 +48,23 @@ class ImageLoadManager(val activity: Activity, val resources: Resources) {
         return bitmap
     }
 
-    fun getBitmap(): Bitmap {
-//            = Bitmap.createBitmap(3600, 3600, Bitmap.Config.ARGB_8888)
-//            = Bitmap.createBitmap(images[0].width.times(3), images[0].height.times(3), Bitmap.Config.ARGB_8888)
-//            = Bitmap.createBitmap(images[0].width.times(mColumnCount), images[0].height.times(images.size.div(7)), Bitmap.Config.ARGB_8888)
-//              = Bitmap.createBitmap(displayMetrics.widthPixels, displayMetrics.heightPixels, Bitmap.Config.ARGB_8888)
+    fun getFixedSizeBitmap3600(): Bitmap = Bitmap.createBitmap(3600, 3600, Bitmap.Config.ARGB_8888)
+
+    fun get3TimesImageBitmap(): Bitmap = Bitmap.createBitmap(images[0].width.times(3), images[0].height.times(3), Bitmap.Config.ARGB_8888)
+
+    fun getScreenSizeBitmap(): Bitmap = Bitmap.createBitmap(displayMetrics.widthPixels, displayMetrics.heightPixels, Bitmap.Config.ARGB_8888)
+
+    fun getScreenWidthSizeBitmap(): Bitmap {
         val display = (activity.applicationContext.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay
         val size = Point()
         display.getSize(size)
         println("screen width : ${size.x} screen height : ${size.y}")
         return Bitmap.createBitmap(size.x, size.x, Bitmap.Config.ARGB_4444)
+    }
 
+    fun getImageSizeBitmap(): Bitmap {
+        println("${images[0].width} ${images[0].height}")
+        return Bitmap.createBitmap(images[0].width.times(mColumnCount), /*images[0].height.times(images.size.div(7))*/ images[0].height.times(3), Bitmap.Config.ARGB_8888)
     }
 
     fun getColumCount(): Int
@@ -98,8 +99,6 @@ class ImageLoadManager(val activity: Activity, val resources: Resources) {
             XXHDPI, XXXHDPI -> {
                 (0..activity.assets.list("prev_new_york_map/tiles_xxres").size.minus(1)).mapTo(imageRes) {
                     println("it : $it")
-//                    BitmapFactory.decodeStream(activity.assets.open("$XX_RES_PATH${String.format("nyc_500_%03d.png", it)}")) }
-
                     BitmapFactory.decodeStream(activity.assets.open("$XX_RES_PATH${String.format("nyc_500_%03d.png", it)}")) }
             }
         }
