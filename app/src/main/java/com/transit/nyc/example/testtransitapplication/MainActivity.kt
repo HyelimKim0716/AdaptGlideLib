@@ -20,19 +20,17 @@ import kotlinx.android.synthetic.main.activity_main.*
 @SuppressLint("CheckResult")
 class MainActivity : AppCompatActivity() {
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
 //        iv_subway.setImageBitmap(resizeImage())
-//        iv_subway.setImageBitmap(getBitmap())
+//        iv_subway.setImageBitmap(getScreenWidthSizeBitmap())
+//        imageManager.images = ImageSplitManager(this).splitImage()
 
         val imageManager = ImageLoadManager(this, resources)
-//        imageManager.images = ImageSplitManager(this).splitImage()
         iv_subway.setImageBitmap(imageManager.getCombinedImage())
-
+        iv_subway.maximumScale = 20F
 
         iv_subway.setOnMatrixChangeListener(mMatrixChangeListener)
         iv_subway.setOnPhotoTapListener(mPhotoTapListener)
@@ -77,7 +75,7 @@ class MainActivity : AppCompatActivity() {
         return BitmapFactory.decodeResource(resources, R.drawable.nyc_subway_latest_map, options)
     }
 
-//    fun getBitmap() : Bitmap {
+//    fun getScreenWidthSizeBitmap() : Bitmap {
 //        val vector = ContextCompat.getDrawable(applicationContext, R.drawable.nyc_subway_latest_map)
 //        val bitmap = Bitmap.createBitmap(vector.intrinsicWidth, vector.intrinsicHeight, Bitmap.Config.ARGB_8888)
 //        val canvas = Canvas(bitmap)
