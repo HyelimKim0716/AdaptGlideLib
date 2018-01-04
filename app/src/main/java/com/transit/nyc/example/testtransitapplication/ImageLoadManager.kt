@@ -34,7 +34,7 @@ class ImageLoadManager(val activity: Activity, val resources: Resources) {
     fun getCombinedImage(): Bitmap? {
         var bitmap: Bitmap? = null
 
-        bitmap = getImageSizeBitmap()
+        bitmap = getOriginalImageWidthSizeBitmap()
         val canvas: Canvas = Canvas(bitmap)
         println("bitmap size = ${bitmap.width} ${bitmap.height} / image size = ${images.size}")
 //            images.forEachIndexed { index, one ->
@@ -53,6 +53,10 @@ class ImageLoadManager(val activity: Activity, val resources: Resources) {
     fun get3TimesImageBitmap(): Bitmap = Bitmap.createBitmap(images[0].width.times(3), images[0].height.times(3), Bitmap.Config.ARGB_8888)
 
     fun getScreenSizeBitmap(): Bitmap = Bitmap.createBitmap(displayMetrics.widthPixels, displayMetrics.heightPixels, Bitmap.Config.ARGB_8888)
+
+    fun getOriginalImageSizeBitmap(): Bitmap = Bitmap.createBitmap(images[0].width.times(mColumnCount), images[0].height.times(mRowCount), Bitmap.Config.ARGB_8888)
+
+    fun getOriginalImageWidthSizeBitmap(): Bitmap = Bitmap.createBitmap(images[0].width.times(mColumnCount), images[0].height.times(mRowCount.minus(3)), Bitmap.Config.ARGB_8888)
 
     fun getScreenWidthSizeBitmap(): Bitmap {
         val display = (activity.applicationContext.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay
@@ -84,14 +88,11 @@ class ImageLoadManager(val activity: Activity, val resources: Resources) {
         println("list size : " + resources.assets.list("prev_new_york_map/tiles_xres").size)
         println("list size : " + resources.assets.list("prev_new_york_map/tiles_xxres").size)
 
-
-
         when (displayMetrics.density) {
             LDPI, MDPI, HDPI -> {
                 (0..activity.assets.list("prev_new_york_map/tiles_high_res").size.minus(1)).mapTo(imageRes) { BitmapFactory.decodeStream(activity.assets.open("$HIGH_RES_PATH${String.format("nyc_500_%03d.png", it)}")) }
             }
             XHDPI -> {
-//                (0..activity.assets.list("new_york_map/tiles_xres").size.minus(1)).mapTo(imageRes) { BitmapFactory.decodeStream(activity.assets.open("$X_RES_PATH${String.format("nyc_500_%03d.png", it)}")) }
                 for (x in 0..activity.assets.list("prev_new_york_map/tiles_xres").size.minus(1)) {
                     imageRes.add(BitmapFactory.decodeStream(activity.assets.open("$X_RES_PATH${String.format("nyc_500_%03d.png", x)}")))
                 }
@@ -99,8 +100,6 @@ class ImageLoadManager(val activity: Activity, val resources: Resources) {
             XXHDPI, XXXHDPI -> {
                 (0..activity.assets.list("prev_new_york_map/tiles_xxres").size.minus(1)).mapTo(imageRes) {
                     println("it : $it")
-//                    BitmapFactory.decodeStream(activity.assets.open("$XX_RES_PATH${String.format("nyc_500_%03d.png", it)}")) }
-
                     BitmapFactory.decodeStream(activity.assets.open("$XX_RES_PATH${String.format("nyc_500_%03d.png", it)}")) }
             }
         }
@@ -109,11 +108,11 @@ class ImageLoadManager(val activity: Activity, val resources: Resources) {
     }
 
     fun getDst(index: Int, bitmap: Bitmap): Rect {
-//        val width = bitmap.width
-//        val height = bitmap.height
+        val width = bitmap.width
+        val height = bitmap.height
 
-        val width = displayMetrics.widthPixels.div(mColumnCount)
-        val height = displayMetrics.heightPixels.div(mRowCount)
+//        val width = displayMetrics.widthPixels.div(mColumnCount)
+//        val height = displayMetrics.heightPixels.div(mRowCount)
 
         println("index : $index mColumCount : $mColumnCount left: ${width.times(index% mColumnCount)} top: ${height.times(index.div(mColumnCount))} right: ${width.times((index%mColumnCount) + 1)} bottom: ${height.times(index.div(mColumnCount).plus(1))}")
         val rect = Rect(width.times(index% mColumnCount), height.times(index.div(mColumnCount)), width.times((index%mColumnCount) + 1), height.times(index.div(mColumnCount).plus(1)))
