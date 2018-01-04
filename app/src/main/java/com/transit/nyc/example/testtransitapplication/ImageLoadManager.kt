@@ -32,32 +32,25 @@ class ImageLoadManager(val activity: Activity, val resources: Resources) {
 
 
     fun getCombinedImage(): Bitmap? {
-        val bitmap = getImageThreeTimesHeightSizeBitmap()
+        var bitmap: Bitmap? = null
 
-        val canvas = Canvas(bitmap)
+        bitmap = getImageSizeBitmap()
+        val canvas: Canvas = Canvas(bitmap)
         println("bitmap size = ${bitmap.width} ${bitmap.height} / image size = ${images.size}")
-            images.forEachIndexed { index, one ->
-                canvas.drawBitmap(one, null, getDst(index, one), null)
-            }
+//            images.forEachIndexed { index, one ->
+//                canvas.drawBitmap(one, null, getDst(index, one), null)
+//            }
 
-//        for (x in 0..images.size.minus(1)) {
-//            canvas.drawBitmap(images[x], null, getDst(x, images[x]), null)
-//        }
+        for (x in 0..images.size.minus(1)) {
+            canvas.drawBitmap(images[x], null, getDst(x, images[x]), null)
+        }
 
         return bitmap
     }
 
-    fun getFixed3600SizeBitmap(): Bitmap = Bitmap.createBitmap(3600, 3600, Bitmap.Config.ARGB_8888)
+    fun getFixedSizeBitmap3600(): Bitmap = Bitmap.createBitmap(3600, 3600, Bitmap.Config.ARGB_8888)
 
-    fun getImageThreeTimesSizeBitmap(): Bitmap = Bitmap.createBitmap(images[0].width.times(3), images[0].height.times(3), Bitmap.Config.ARGB_8888)
-
-    fun getImageThreeTimesHeightSizeBitmap(): Bitmap {
-        println("image width: ${images[0].width} height: ${images[0].height}")
-        println("bitmap width: ${images[0].width.times(mColumnCount)} height: ${images[0].height.times(mRowCount.minus(1))}")
-        return Bitmap.createBitmap(images[0].width.times(mColumnCount), images[0].height.times(mRowCount.minus(1)), Bitmap.Config.ARGB_8888)
-    }
-
-    fun getOriginalImageSizeBitmap(): Bitmap = Bitmap.createBitmap(images[0].width.times(mColumnCount), images[0].height.times(images.size.div(7)), Bitmap.Config.ARGB_8888)
+    fun get3TimesImageBitmap(): Bitmap = Bitmap.createBitmap(images[0].width.times(3), images[0].height.times(3), Bitmap.Config.ARGB_8888)
 
     fun getScreenSizeBitmap(): Bitmap = Bitmap.createBitmap(displayMetrics.widthPixels, displayMetrics.heightPixels, Bitmap.Config.ARGB_8888)
 
@@ -67,6 +60,11 @@ class ImageLoadManager(val activity: Activity, val resources: Resources) {
         display.getSize(size)
         println("screen width : ${size.x} screen height : ${size.y}")
         return Bitmap.createBitmap(size.x, size.x, Bitmap.Config.ARGB_4444)
+    }
+
+    fun getImageSizeBitmap(): Bitmap {
+        println("${images[0].width} ${images[0].height}")
+        return Bitmap.createBitmap(images[0].width.times(mColumnCount), /*images[0].height.times(images.size.div(7))*/ images[0].height.times(3), Bitmap.Config.ARGB_8888)
     }
 
     fun getColumCount(): Int
@@ -100,7 +98,7 @@ class ImageLoadManager(val activity: Activity, val resources: Resources) {
             }
             XXHDPI, XXXHDPI -> {
                 (0..activity.assets.list("prev_new_york_map/tiles_xxres").size.minus(1)).mapTo(imageRes) {
-                    println("it : $it, image: " + String.format("nyc_500_%03d.png", it))
+                    println("it : $it")
 //                    BitmapFactory.decodeStream(activity.assets.open("$XX_RES_PATH${String.format("nyc_500_%03d.png", it)}")) }
 
                     BitmapFactory.decodeStream(activity.assets.open("$XX_RES_PATH${String.format("nyc_500_%03d.png", it)}")) }
@@ -111,11 +109,11 @@ class ImageLoadManager(val activity: Activity, val resources: Resources) {
     }
 
     fun getDst(index: Int, bitmap: Bitmap): Rect {
-        val width = bitmap.width
-        val height = bitmap.height
+//        val width = bitmap.width
+//        val height = bitmap.height
 
-//        val width = displayMetrics.widthPixels.div(mColumnCount)
-//        val height = displayMetrics.heightPixels.div(mRowCount)
+        val width = displayMetrics.widthPixels.div(mColumnCount)
+        val height = displayMetrics.heightPixels.div(mRowCount)
 
         println("index : $index mColumCount : $mColumnCount left: ${width.times(index% mColumnCount)} top: ${height.times(index.div(mColumnCount))} right: ${width.times((index%mColumnCount) + 1)} bottom: ${height.times(index.div(mColumnCount).plus(1))}")
         val rect = Rect(width.times(index% mColumnCount), height.times(index.div(mColumnCount)), width.times((index%mColumnCount) + 1), height.times(index.div(mColumnCount).plus(1)))
