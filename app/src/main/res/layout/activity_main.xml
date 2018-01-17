@@ -34,8 +34,7 @@
         android:layout_height="match_parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_matrix"
-        />
+        app:layout_constraintTop_toBottomOf="@id/tv_matrix" />
 
 
 </android.support.constraint.ConstraintLayout>

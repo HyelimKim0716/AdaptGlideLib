@@ -4,9 +4,11 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
 import com.github.chrisbanes.photoview.OnMatrixChangedListener
@@ -17,18 +19,11 @@ import kotlinx.android.synthetic.main.activity_main.*
 @SuppressLint("CheckResult")
 class MainActivity : AppCompatActivity() {
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-//        iv_subway.setImageBitmap(resizeImage())
-//        iv_subway.setImageBitmap(getScreenSizeBitmap())
-
-        val imageManager = ImageLoadManager(this, resources)
-//        imageManager.images = ImageSplitManager(this).splitImage()
-        iv_subway.setImageBitmap(imageManager.getCombinedImage())
+        iv_subway.setImageBitmap(ImageLoadManager(this, resources).getCombinedImageOriginalImageSizeMinus2())
         iv_subway.maximumScale = 20F
 
         iv_subway.setOnMatrixChangeListener(mMatrixChangeListener)
